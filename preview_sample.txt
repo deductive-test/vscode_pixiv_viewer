@@ -1,0 +1,15 @@
+[chapter:章タイトル]
+
+[[rb:漢字>ふりがな]]
+[b:太字]
+
+[i:斜体]
+[[emphasismark:テキスト>﹅]]
+text1
+
+text2
+
+[newpage]
+text3
+
+text4

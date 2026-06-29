@@ -1,0 +1,8 @@
+tag_name	tag_value	parsed_html	comment
+chapter	[chapter:章タイトル]	<h2>章タイトル</h2>	章タイトル
+newpage	[newpage]	<hr>[newpage]<hr>	このタグ以降の文章から次のページとして扱う。プレビュー上は区切り線として表現する。
+ruby	[[rb:漢字>ふりがな]]	<ruby><span>漢字</span><rt>ふりがな</rt></ruby>	ルビ記号
+bold	[b:太字]	<b>太字</b>	太字
+italic	[i:斜体]	<i>斜体</i>	斜体
+emphasismark	[[emphasismark:テキスト>﹅]]	<span style="text-emphasis-style: '﹅';text-emphasis-position: over right;"><span>残します</span></span>	テキストに指定した傍点を付ける。この例の場合は「﹅」が付く。
+
