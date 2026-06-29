@@ -1,0 +1,25 @@
+# 依存・ビルド成果物(絶対パスやログが紛れ込む主因)
+node_modules/
+out/
+dist/
+*.vsix
+*.tsbuildinfo
+
+# テストランナーが自動ダウンロードするVS Code本体
+.vscode-test/
+.vscode-test-web/
+
+# 各種ログ(C:\Users\<アカウント名>\... 等の絶対パスを含みやすい)
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS固有のゴミファイル
+.DS_Store
+Thumbs.db
+
+# 認証トークンが入りうるローカル設定
+.npmrc
+.env
+.env.*
