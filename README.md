@@ -38,7 +38,7 @@ code --install-extension pixiv_text_preview-<バージョン>.vsix --force
 ```
 
 - **Windows**: `code` は VS Code に同梱され、通常はそのまま使えます。
-- **macOS**: `code` が無い場合はコマンドパレットで «Shell Command: Install 'code' command in PATH» を一度実行してください。
+- **macOS**: `code` が無い場合はVSCodeのCmd+Shift+Pでコマンドパレットを開き «Shell Command: Install 'code' command in PATH» を一度実行してください。
 
 ### 4. ウィンドウを再読み込みする
 
