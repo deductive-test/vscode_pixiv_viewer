@@ -1,8 +1,8 @@
 {
   "name": "pixiv_text_preview",
-  "displayName": "TXT Tag Preview",
-  "description": "独自タグ仕様の .txt をプレビュー表示するローカル用拡張",
-  "version": "0.0.2",
+  "displayName": "Pixiv Text Preview",
+  "description": "Pixivの特殊タグをプレビューする",
+  "version": "0.0.3",
   "publisher": "local",
   "private": true,
   "license": "UNLICENSED",
@@ -17,11 +17,11 @@
   "contributes": {
     "commands": [
       {
-        "command": "txtTagPreview.openPreview",
+        "command": "pixivTextPreview.openPreview",
         "title": "pixiv text preview"
       },
       {
-        "command": "txtTagPreview.openPreviewFromTitle",
+        "command": "pixivTextPreview.openPreviewFromTitle",
         "title": "pixiv text preview を開く",
         "shortTitle": "PV"
       }
@@ -29,17 +29,17 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "txtTagPreview.openPreview",
+          "command": "pixivTextPreview.openPreview",
           "when": "editorLangId == plaintext && resourceExtname == .txt"
         },
         {
-          "command": "txtTagPreview.openPreviewFromTitle",
+          "command": "pixivTextPreview.openPreviewFromTitle",
           "when": "false"
         }
       ],
       "editor/title": [
         {
-          "command": "txtTagPreview.openPreviewFromTitle",
+          "command": "pixivTextPreview.openPreviewFromTitle",
           "when": "resourceExtname == .txt",
           "group": "navigation"
         }

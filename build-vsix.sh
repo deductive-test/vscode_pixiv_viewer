@@ -40,7 +40,7 @@ cat > "$STAGE/extension.vsixmanifest" <<EOF
   <Metadata>
     <Identity Language="en-US" Id="${NAME}" Version="${VERSION}" Publisher="${PUBLISHER}" />
     <DisplayName>${DISPLAY}</DisplayName>
-    <Description xml:space="preserve">TXT tag preview (local).</Description>
+    <Description xml:space="preserve">Pixivの特殊タグをプレビューする</Description>
     <Tags></Tags>
     <Categories>Other</Categories>
     <GalleryFlags>Public</GalleryFlags>

@@ -38,7 +38,7 @@ class PreviewPanel {
     this.onDisposeCallback = undefined;
 
     this.panel = vscode.window.createWebviewPanel(
-      "txtTagPreview",
+      "pixivTextPreview",
       this.buildTitle(document),
       vscode.ViewColumn.Beside,
       {

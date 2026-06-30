@@ -40,9 +40,9 @@ function activate(context) {
 
   // コマンドパレット用（title: "pixiv text preview"）とエディタ右上ボタン用（shortTitle: "PV"）。
   // 表示名だけ異なる 2 コマンドが同じ処理を呼ぶ。
-  const openCommand = vscode.commands.registerCommand("txtTagPreview.openPreview", openPreview);
+  const openCommand = vscode.commands.registerCommand("pixivTextPreview.openPreview", openPreview);
   const openFromTitleCommand = vscode.commands.registerCommand(
-    "txtTagPreview.openPreviewFromTitle",
+    "pixivTextPreview.openPreviewFromTitle",
     openPreview
   );
 
