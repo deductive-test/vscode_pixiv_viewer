@@ -13,11 +13,11 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
 # package.json から publisher は固定 local、name と version を取り出す
-NAME="$(grep -oE '"name"\s*:\s*"[^"]+"' package.json | head -1 | sed -E 's/.*:\s*"([^"]+)"/\1/')"
-VERSION="$(grep -oE '"version"\s*:\s*"[^"]+"' package.json | head -1 | sed -E 's/.*:\s*"([^"]+)"/\1/')"
+NAME="$(grep -oE '"name"[[:space:]]*:[[:space:]]*"[^"]+"' package.json | head -1 | sed -E 's/.*:[[:space:]]*"([^"]+)"/\1/')"
+VERSION="$(grep -oE '"version"[[:space:]]*:[[:space:]]*"[^"]+"' package.json | head -1 | sed -E 's/.*:[[:space:]]*"([^"]+)"/\1/')"
 PUBLISHER="local"
-ENGINE="$(grep -oE '"vscode"\s*:\s*"[^"]+"' package.json | head -1 | sed -E 's/.*:\s*"([^"]+)"/\1/')"
-DISPLAY="$(grep -oE '"displayName"\s*:\s*"[^"]+"' package.json | head -1 | sed -E 's/.*:\s*"([^"]+)"/\1/')"
+ENGINE="$(grep -oE '"vscode"[[:space:]]*:[[:space:]]*"[^"]+"' package.json | head -1 | sed -E 's/.*:[[:space:]]*"([^"]+)"/\1/')"
+DISPLAY="$(grep -oE '"displayName"[[:space:]]*:[[:space:]]*"[^"]+"' package.json | head -1 | sed -E 's/.*:[[:space:]]*"([^"]+)"/\1/')"
 
 VSIX="$ROOT/${NAME}-${VERSION}.vsix"
 echo "パッケージ: ${PUBLISHER}.${NAME} v${VERSION}  (engine ${ENGINE})"
