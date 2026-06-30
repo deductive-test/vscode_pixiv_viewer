@@ -14,8 +14,8 @@ let currentPanel;
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  // 「プレビューを横に開く」コマンド
-  const openCommand = vscode.commands.registerCommand("txtTagPreview.openPreview", () => {
+  // プレビューを横に開く処理。コマンドパレット用とボタン用の 2 コマンドから共通で呼ぶ。
+  const openPreview = () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
       vscode.window.showInformationMessage("プレビュー対象の .txt を開いてください。");
@@ -36,7 +36,15 @@ function activate(context) {
       currentPanel = undefined;
     });
     currentPanel = panel;
-  });
+  };
+
+  // コマンドパレット用（title: "pixiv text preview"）とエディタ右上ボタン用（shortTitle: "PV"）。
+  // 表示名だけ異なる 2 コマンドが同じ処理を呼ぶ。
+  const openCommand = vscode.commands.registerCommand("txtTagPreview.openPreview", openPreview);
+  const openFromTitleCommand = vscode.commands.registerCommand(
+    "txtTagPreview.openPreviewFromTitle",
+    openPreview
+  );
 
   // 編集中のライブ更新: 対象ドキュメントが変わったら再描画する
   const changeSubscription = vscode.workspace.onDidChangeTextDocument((event) => {
@@ -48,7 +56,7 @@ function activate(context) {
     }
   });
 
-  context.subscriptions.push(openCommand, changeSubscription);
+  context.subscriptions.push(openCommand, openFromTitleCommand, changeSubscription);
 }
 
 function deactivate() {

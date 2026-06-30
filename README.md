@@ -3,50 +3,55 @@
 独自タグ仕様で書いた `.txt` ファイルを、VS Code で**プレビュー表示**するローカル専用の拡張機能です。
 Markdown プレビューの「横にプレビューを開く」と同じ感覚で使えます。
 
-- **npm 不要・ビルド不要**：素の JavaScript で動くため、`npm install` も `F5`（デバッグ実行）も必要ありません。
-- **インストールは一度だけ**：拡張フォルダへ置けば、以後 VS Code を開くだけでいつでもプレビューを使えます。
+- **npm 不要・コンパイル不要**：素の JavaScript で動くため、`npm install` も `F5`（デバッグ実行）も必要ありません。
+- **インストールは一度だけ**：VSIX を作って一度インストールすれば、以後 VS Code を開くだけでいつでもプレビューを使えます。
 
 ---
 
-## インストール手順（これだけ）
+## インストール手順
 
-VS Code には「拡張フォルダに置いたものを起動時に読み込む」仕組みがあります。
-このリポジトリ一式を、その拡張フォルダへ **`local.txt-tag-preview-0.0.1` という名前でコピー**するだけです。
+> 現在の VS Code は、拡張を「フォルダにコピーするだけ」では読み込みません
+> （台帳 `extensions.json` に登録された拡張のみ有効になり、手置きフォルダは起動時に除外されます）。
+> そのため **VSIX を作って `code --install-extension` で正規インストール**します。
+> VSIX の中身は ZIP を固めるだけなので、**npm も vsce も不要**です。
 
 ### 1. このリポジトリをダウンロードする
 
-ZIP でダウンロードして展開するか、`git clone` で取得します。展開後のフォルダ（`package.json` がある階層）が対象です。
+ZIP でダウンロードして展開するか、`git clone` で取得します。`package.json` がある階層がルートです。
 
-### 2. 拡張フォルダへコピーする
+### 2. VSIX を作る
 
-拡張フォルダの場所は OS で異なります。
-
-| OS | 拡張フォルダ |
-|----|--------------|
-| Windows | `%USERPROFILE%\.vscode\extensions\` |
-| macOS / Linux | `~/.vscode/extensions/` |
-
-コピー先のフォルダ名は **`local.txt-tag-preview-0.0.1`** にしてください（`publisher.name-version` の規約）。
-
-**Windows（PowerShell）**　`<このリポジトリのパス>` は展開先に置き換えてください。
-
-```powershell
-$src  = "<このリポジトリのパス>"
-$dest = "$env:USERPROFILE\.vscode\extensions\local.txt-tag-preview-0.0.1"
-Copy-Item -Recurse -Force $src $dest
-```
-
-**macOS / Linux（ターミナル）**
+リポジトリのルートで付属スクリプトを実行します（`zip`〈macOS/Linux〉または Windows 同梱の `tar.exe` を自動で使います）。
 
 ```bash
-cp -R "<このリポジトリのパス>" ~/.vscode/extensions/local.txt-tag-preview-0.0.1
+bash build-vsix.sh
 ```
 
-> 手動でコピーしても構いません。要は「拡張フォルダの中に `local.txt-tag-preview-0.0.1` フォルダがあり、その直下に `package.json` がある」状態にできれば OK です。
+ルートに `pixiv_text_preview-<バージョン>.vsix` が生成されます（スクリプトが実際のパスを表示します）。
 
-### 3. VS Code を再起動する
+### 3. インストールする
 
-一度すべてのウィンドウを閉じて開き直すと、拡張が読み込まれます。以後はこの操作は不要です。
+`code` コマンド（VS Code の CLI）でインストールします（`<バージョン>` は生成されたファイル名に合わせる）。
+
+```bash
+code --install-extension pixiv_text_preview-<バージョン>.vsix --force
+```
+
+- **Windows**: `code` は VS Code に同梱され、通常はそのまま使えます。
+- **macOS**: `code` が無い場合はコマンドパレットで «Shell Command: Install 'code' command in PATH» を一度実行してください。
+
+### 4. ウィンドウを再読み込みする
+
+コマンドパレットで «Developer: Reload Window»（または VS Code を再起動）すると有効になります。以後この操作は不要です。
+
+> 正規インストールされると、拡張は `~/.vscode/extensions/local.pixiv_text_preview-<バージョン>` に展開されます
+> （`local.` は publisher 名で、VS Code の仕様により付きます）。
+>
+> 同じバージョンを上書きすると VS Code が変更を認識しないことがあるため、**コードを変えたら `package.json` の `version` を上げてから**作り直すと確実です。
+
+### コードを更新したときは
+
+ソースを変更したら、再度 `bash build-vsix.sh` → `code --install-extension … --force` を実行して上書きインストールしてください。
 
 ---
 
@@ -54,9 +59,9 @@ cp -R "<このリポジトリのパス>" ~/.vscode/extensions/local.txt-tag-prev
 
 1. 任意の `.txt` ファイルを VS Code で開きます。
 2. 次のいずれかでプレビューを開きます。
-   - **エディタ右上のアイコン**（`.txt` を開くと表示されます）をクリック
+   - エディタ右上の **「PV」** ボタン（`.txt` を開くと表示されます）をクリック
    - **コマンドパレット**（`Ctrl+Shift+P` / macOS は `Cmd+Shift+P`）で
-     **「TXT Tag Preview: プレビューを横に開く」** を実行
+     **「pixiv text preview」** を実行
 3. エディタの**横にプレビュー**が開きます。
 4. テキストを編集すると、**保存しなくてもリアルタイムでプレビューが更新**されます。
 
@@ -80,16 +85,10 @@ cp -R "<このリポジトリのパス>" ~/.vscode/extensions/local.txt-tag-prev
 
 ## アンインストール
 
-拡張フォルダから `local.txt-tag-preview-0.0.1` フォルダを削除し、VS Code を再起動するだけです。
-
-```powershell
-# Windows
-Remove-Item -Recurse -Force "$env:USERPROFILE\.vscode\extensions\local.txt-tag-preview-0.0.1"
-```
+`code` コマンドでアンインストールし、ウィンドウを再読み込みするだけです。
 
 ```bash
-# macOS / Linux
-rm -rf ~/.vscode/extensions/local.txt-tag-preview-0.0.1
+code --uninstall-extension local.pixiv_text_preview
 ```
 
 ---
