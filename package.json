@@ -1,0 +1,41 @@
+{
+  "name": "txt-tag-preview",
+  "displayName": "TXT Tag Preview",
+  "description": "独自タグ仕様の .txt をプレビュー表示するローカル用拡張",
+  "version": "0.0.1",
+  "publisher": "local",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "txtTagPreview.openPreview",
+        "title": "プレビューを横に開く",
+        "category": "TXT Tag Preview"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "txtTagPreview.openPreview",
+          "when": "editorLangId == plaintext && resourceExtname == .txt"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "txtTagPreview.openPreview",
+          "when": "resourceExtname == .txt",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}

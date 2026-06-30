@@ -1,0 +1,38 @@
+/* TXT タグプレビューの最小スタイル */
+
+body {
+  /* VS Code のテーマ変数を利用し、エディタと違和感のない配色にする */
+  color: var(--vscode-editor-foreground);
+  background-color: var(--vscode-editor-background);
+  font-family: var(--vscode-editor-font-family, "Segoe UI", sans-serif);
+  font-size: var(--vscode-editor-font-size, 14px);
+  line-height: 1.9;
+  padding: 1.2rem 1.6rem;
+  margin: 0;
+}
+
+/* 章タイトル */
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1.6em 0 0.8em;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--vscode-editorWidget-border, rgba(128, 128, 128, 0.35));
+}
+
+/* 段落 */
+p {
+  margin: 0 0 1.2em;
+}
+
+/* newpage（ページ区切り）。線のデザインは章タイトル（h2）下線と統一する */
+hr {
+  border: none;
+  border-top: 1px solid var(--vscode-editorWidget-border, rgba(128, 128, 128, 0.35));
+  margin: 0.8em 0;
+}
+
+/* ルビ */
+ruby rt {
+  font-size: 0.5em;
+}
