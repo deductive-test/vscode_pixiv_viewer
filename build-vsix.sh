@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+# ===== macOS / Linux 専用 =====（Windows は build-vsix.ps1 を使う）
 # npm / vsce を使わずに VSIX（拡張パッケージ）を生成するスクリプト。
-# VSIX の実体は ZIP。zip コマンド（macOS/Linux）または Windows 同梱 tar.exe（bsdtar）で固める。
+# VSIX の実体は ZIP。macOS / Linux 標準同梱の zip コマンドで固める。
 #
 # 使い方:  bash build-vsix.sh
 # 出力:    リポジトリ直下に <name>-<version>.vsix を生成する。
@@ -79,17 +80,11 @@ EOF
 rm -f "$VSIX"
 
 # ZIP（=VSIX）を作る。エントリは ZIP ルート直下に置く必要がある。
-if command -v zip >/dev/null 2>&1; then
-  # macOS / Linux
-  ( cd "$STAGE" && zip -r -q "$VSIX" extension.vsixmanifest "[Content_Types].xml" extension )
-elif [ -x /c/Windows/System32/tar.exe ]; then
-  # Windows 同梱 bsdtar（libarchive）。出力は .vsix だが拡張子では zip と判定されないため
-  # --format zip を明示して ZIP 形式で固める。
-  /c/Windows/System32/tar.exe --format zip -c -f "$VSIX" -C "$STAGE" extension.vsixmanifest "[Content_Types].xml" extension
-else
-  echo "ZIP を作成できる zip または bsdtar(tar.exe) が見つかりません。" >&2
+if ! command -v zip >/dev/null 2>&1; then
+  echo "zip コマンドが見つかりません。macOS / Linux では通常標準で同梱されています。" >&2
   exit 1
 fi
+( cd "$STAGE" && zip -r -q "$VSIX" extension.vsixmanifest "[Content_Types].xml" extension )
 
 echo "生成しました: $VSIX"
 echo "インストール: code --install-extension \"$VSIX\" --force"

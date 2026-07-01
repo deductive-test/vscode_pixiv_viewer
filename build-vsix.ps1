@@ -1,4 +1,5 @@
-﻿# npm / vsce を使わずに VSIX（拡張パッケージ）を生成する Windows 用スクリプト。
+﻿# ===== Windows 専用 =====（macOS / Linux は build-vsix.sh を使う）
+# npm / vsce を使わずに VSIX（拡張パッケージ）を生成する Windows 用スクリプト。
 # build-vsix.sh の PowerShell 移植版。VSIX の実体は ZIP。
 # Windows 同梱の tar.exe（bsdtar）で --format zip を指定して固める。
 #
