@@ -31,16 +31,20 @@
 	- `CustomTextEditorProvider` は使わない。通常の txt 編集と競合させたくないため。
 - **パーサはコア機能から完全に分離した独立モジュール**にする。タグ仕様に依存しないインターフェースを切り、本体（コマンド登録・Webview 管理）はパーサの内部実装を知らない状態に保つ。
 - ライブ更新は `vscode.workspace.onDidChangeTextDocument` を購読して行う（編集中に再描画）。
+- **スクロール同期（片方向: エディタ → プレビュー）**を行う。プレビューがエディタの表示位置に追従するのみで、逆方向（プレビュー → エディタ）は行わない。
+	- このため Webview は `enableScripts: true` とし、同期用の最小スクリプトのみを動かす（外部スクリプトは読み込まない）。CSP はスタイルを従来どおり許可しつつ、スクリプトは `script-src 'nonce-…'` で都度発行する nonce により当該インラインスクリプトのみ許可する。
+	- パーサは各ブロック要素（`<p>` / `<h2>` / `<hr>`）に `data-line`（元テキストの 0 始まり行番号）を付与する。この属性が同期の唯一の手がかりであり、付与を外さないこと。
+	- 本体は `vscode.window.onDidChangeTextEditorVisibleRanges` を購読し、対象ドキュメントの先頭表示行を `postMessage` で Webview へ送る。Webview 側は前後アンカーの縦位置を線形補間して当該行を先頭にスクロールする。
 
 ### ディレクトリ構成（この形を維持する）
 
 ```
 src/
-	extension.ts				# activate / コマンド登録 / ライフサイクルのみ
+	extension.js				# activate / コマンド登録 / ライフサイクルのみ
 	preview/
-		panel.ts					# Webview パネルの生成・更新・破棄、CSP、asWebviewUri
+		panel.js					# Webview パネルの生成・更新・破棄、CSP、asWebviewUri
 	parser/
-		index.ts					# パーサのエントリ。公開 IF: parse(text: string): string (HTML)
+		index.js					# パーサのエントリ。公開 IF: parse(text: string): string (HTML)
 		...							 # タグごとの変換ロジックはこの配下に閉じる
 ```
 

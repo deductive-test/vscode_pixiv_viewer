@@ -56,7 +56,28 @@ function activate(context) {
     }
   });
 
-  context.subscriptions.push(openCommand, openFromTitleCommand, changeSubscription);
+  // スクロール同期（片方向: エディタ → プレビュー）。
+  // 対象ドキュメントを表示中のエディタがスクロールしたら、先頭表示行をプレビューへ伝える。
+  const scrollSubscription = vscode.window.onDidChangeTextEditorVisibleRanges((event) => {
+    if (!currentPanel) {
+      return;
+    }
+    if (event.textEditor.document.uri.toString() !== currentPanel.documentUri.toString()) {
+      return;
+    }
+    const ranges = event.visibleRanges;
+    if (ranges.length === 0) {
+      return;
+    }
+    currentPanel.revealLine(ranges[0].start.line);
+  });
+
+  context.subscriptions.push(
+    openCommand,
+    openFromTitleCommand,
+    changeSubscription,
+    scrollSubscription
+  );
 }
 
 function deactivate() {

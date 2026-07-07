@@ -2,7 +2,7 @@
   "name": "pixiv_text_preview",
   "displayName": "Pixiv Text Preview",
   "description": "Pixivの特殊タグをプレビューする",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "local",
   "private": true,
   "license": "UNLICENSED",
